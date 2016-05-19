@@ -1,20 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<link rel="stylesheet" href="style/css/ch-ui.admin.css">
-	<link rel="stylesheet" href="style/font/css/font-awesome.min.css">
-	<script type="text/javascript" src="style/js/jquery.js"></script>
-    <script type="text/javascript" src="style/js/ch-ui.admin.js"></script>
-</head>
-<body>
-	<!--头部 开始-->
+@extends('layouts.admin')
+@section('content')
+	<!--header 開始-->
 	<div class="top_box">
 		<div class="top_left">
-			<div class="logo">后台管理模板</div>
+			<div class="logo">後台管理模板</div>
 			<ul>
-				<li><a href="#" class="active">首页</a></li>
-				<li><a href="#">管理页</a></li>
+				<li><a href="#" class="active">首頁</a></li>
+				<li><a href="#">管理頁</a></li>
 			</ul>
 		</div>
 		<div class="top_right">
@@ -25,7 +17,7 @@
 			</ul>
 		</div>
 	</div>
-	<!--头部 结束-->
+	<!--header 結束-->
 
 	<!--左侧导航 开始-->
 	<div class="menu_box">
@@ -59,9 +51,9 @@
 	</div>
 	<!--左侧导航 结束-->
 
-	<!--主体部分 开始-->
+	<!--主体部分 開始-->
 	<div class="main_box">
-		<iframe src="info.html" frameborder="0" width="100%" height="100%" name="main"></iframe> 
+		<iframe src="{{url('admin/info')}}" frameborder="0" width="100%" height="100%" name="main"></iframe>
 	</div>
 	<!--主体部分 结束-->
 
@@ -70,5 +62,4 @@
 		CopyRight © 2015. Powered By <a href="http://www.houdunwang.com">http://www.houdunwang.com</a>.
 	</div>
 	<!--底部 结束-->
-</body>
-</html>
+@endsection<!--子視圖模版-->

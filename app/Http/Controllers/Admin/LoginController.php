@@ -25,7 +25,8 @@ class LoginController extends CommonController
                 return back()->with('msg','帳號或密碼有誤');//回上頁並給值要用session('msg')接收
             }
             session(['user' => $user]);
-            dd(session('user'));
+            //dd(session('user'));
+            return redirect('admin/index');//成功登入轉到指定頁面
         }else{
             return view('admin.login');
         }
