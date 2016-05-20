@@ -8,6 +8,6 @@
     <script type="text/javascript" src="{{asset('resources/views/admin/style/js/ch-ui.admin.js')}}"></script>
 </head>
 <body>
-@yield('content');
+@yield('content')
 </body>
 </html>
