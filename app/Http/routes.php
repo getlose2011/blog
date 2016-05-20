@@ -24,4 +24,5 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware'=>'adminl
     Route::get('logout','IndexController@logout');
     Route::any('pass','IndexController@pass');
 
+    Route::resource('category', 'CategoryController');//資源控制器路由
 });
