@@ -8,7 +8,21 @@
     <!-​​-麵包屑導航 結束-->
     <!-​​-結果集標題與導航組件 開始-->
     <div class="result_wrap">
-         <div class="result_content">
+        <div class="result_title">
+            <h3>快捷操作</h3>
+            @if(count($errors) > 0)
+                <div class="mark">
+                    @if(is_object($errors))
+                        @foreach($errors->all() as $error)
+                            <p>{{$error}}</p>
+                        @endforeach
+                    @else
+                        {{$errors}}
+                    @endif
+                </div>
+            @endif
+        </div>
+        <div class="result_content">
             <div class="short_wrap">
                 <a href="#"><i class="fa fa-plus"></i>新增文章</a>
                 <a href="#"><i class="fa fa-recycle"></i>批量刪除</a>
@@ -16,17 +30,17 @@
             </div>
         </div>
     </div>
-    <!-​​-結果集標題與導航組件 結束-->
+	<!--結果集標題與導航組件 結束-->
     <div class="result_wrap">
-        <form action="{{url('admin/category')}}" method="post">
-            {{csrf_field()}}
-            <table class="add_tab">
-                <tbody>
+        <form action="{{url('admin/category')}}" method="post">
+            {{csrf_field()}}
+            <table class="add_tab">
+                <tbody>
                     <tr>
                         <th width="120"><i class="require">*</i>父級分類：</th>
                         <td>
-                            <select name="cate_pid">
-                                <option value="0">===分類===</option>
+							<select name="cate_pid">
+                                <option value="">===分類===</option>
                                 @foreach($data as $v)
                                  <option value="{{$v->cate_id}}">{{$v->cate_name}}</option>
                                 @endforeach
@@ -73,6 +87,6 @@
                         </tr>
                 </tbody>
             </table>
-        </form>
+        </form>
     </div>
 @endsection

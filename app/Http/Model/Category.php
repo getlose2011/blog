@@ -12,6 +12,9 @@ class Category extends Model
     protected $primaryKey = 'cate_id';
     public $timestamps = false;
 
+    //$guarded = [];空的代表所有的新增欄位都可以儲存
+    protected $guarded = [];//insert須增加 fillable 或是 guarded 來保護Mass Assignment
+
     //第1,2種方法
 //    public function tree(){
 //        $categorys = $this->all();
@@ -20,7 +23,7 @@ class Category extends Model
 
     //第3種方法
     public static function tree(){
-        $categorys = Category::all();
+        $categorys = Category::orderBy('cate_order','asc')->get();//預設為asc
         return (new Category)->getTree($categorys, 'cate_name', 'cate_id', 'cate_pid');
     }
 

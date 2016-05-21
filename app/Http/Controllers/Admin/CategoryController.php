@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Model\Category;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends CommonController
 {
@@ -24,8 +26,31 @@ class CategoryController extends CommonController
 
     //post admin/category
     public function store(){
-        $input = Input::all();
-        dd($input);
+        $input = Input::except('_token');//除了token之外全部的值保存
+        $rules = [
+            'cate_pid' => 'required',
+            'cate_name' => 'required',
+        ];
+
+        $messages = [
+            'cate_pid.required' => '父級分類必須',
+            'cate_name.required' => '分類名稱必填',
+        ];
+
+        $validator = Validator::make($input, $rules, $messages);
+        if ($validator->passes()) {
+            //https://laravel.com/docs/5.2/eloquent#mass-assignment
+            //insert須在Model增加 fillable 或是 guarded 來保護Mass Assignment
+            $re = Category::create($input);
+            if($re){
+                
+                return redirect('admin/category');
+            }else{
+                return back()->with('errors','新增失敗');
+            }
+        } else{
+            return back()->withErrors($validator);//回傳錯誤訊息給上頁變數為$errors
+        }
     }
 
     //get admin/category/create
@@ -60,8 +85,8 @@ class CategoryController extends CommonController
         $input = Input::all();
         $cate = Category::find($input['cate_id']);
         $cate->cate_order = $input['cate_order'];
-        $ruslut = $cate->update();
-        if($ruslut){
+        $re = $cate->update();
+        if($re){
             $data = [
                 'status' => 1,
                 'message' => '儲存成功',
