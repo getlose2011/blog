@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Model\Category;
+use Illuminate\Support\Facades\Input;
 
 class CategoryController extends CommonController
 {
@@ -49,6 +50,26 @@ class CategoryController extends CommonController
     //get admin/category/{category}/edit
     public function edit(){
 
+    }
+
+    public function changeOrder()
+    {
+        $input = Input::all();
+        $cate = Category::find($input['cate_id']);
+        $cate->cate_order = $input['cate_order'];
+        $ruslut = $cate->update();
+        if($ruslut){
+            $data = [
+                'status' => 1,
+                'message' => '儲存成功',
+            ];
+        }else{
+            $data = [
+                'status' => 0,
+                'message' => '儲存失敗,請稍後再試',
+            ];
+        }
+        return $data;
     }
 
 }

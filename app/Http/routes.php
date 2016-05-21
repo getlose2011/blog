@@ -23,6 +23,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware'=>'adminl
     Route::get('info','IndexController@info');
     Route::get('logout','IndexController@logout');
     Route::any('pass','IndexController@pass');
-
+    Route::post('cate/changeorder','CategoryController@changeOrder');
     Route::resource('category', 'CategoryController');//資源控制器路由
 });
