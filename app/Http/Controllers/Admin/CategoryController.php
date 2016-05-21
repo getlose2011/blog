@@ -24,12 +24,15 @@ class CategoryController extends CommonController
 
     //post admin/category
     public function store(){
-
+        $input = Input::all();
+        dd($input);
     }
 
     //get admin/category/create
     public function create(){
-
+        $data = Category::where('cate_pid', 0)->get();
+        //dd($data);
+        return view('admin.category.add', compact('data'));
     }
 
     //get admin/category/{category}
