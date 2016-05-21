@@ -114,9 +114,9 @@
         function changeOrder(obj, cate_id) {
             $.post('{{url('admin/cate/changeorder')}}',{'_token':'{{csrf_token()}}', 'cate_order':obj.value, 'cate_id':cate_id}, function(data){
                 if(data.status == 0){
-                    layer.alert(data.message, {icon: 6});
-                }else{
                     layer.alert(data.message, {icon: 5});
+                }else{
+                    layer.alert(data.message, {icon: 6});
                 }
             });
         }
