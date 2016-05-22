@@ -22,28 +22,22 @@ class CategoryController extends CommonController
         //第3種寫法靜態方法
         $categorys_data = Category::tree();
         return view('admin.category.index')->with('data', $categorys_data);
-    }   
+    }
+
+    //get admin/category/{category}
+    public function show(){
+
+    }
 
     //post admin/category
     public function store(){
         $input = Input::except('_token');//除了token之外全部的值保存
-        $rules = [
-            'cate_pid' => 'required',
-            'cate_name' => 'required',
-        ];
-
-        $messages = [
-            'cate_pid.required' => '父級分類必須',
-            'cate_name.required' => '分類名稱必填',
-        ];
-
-        $validator = Validator::make($input, $rules, $messages);
+        $validator = $this->checkValidator($input);
         if ($validator->passes()) {
             //https://laravel.com/docs/5.2/eloquent#mass-assignment
             //insert須在Model增加 fillable 或是 guarded 來保護Mass Assignment
             $re = Category::create($input);
             if($re){
-                
                 return redirect('admin/category');
             }else{
                 return back()->with('errors','新增失敗');
@@ -55,19 +49,31 @@ class CategoryController extends CommonController
 
     //get admin/category/create
     public function create(){
-        $data = Category::where('cate_pid', 0)->get();
-        //dd($data);
-        return view('admin.category.add', compact('data'));
+        $cate_id_arr = Category::where('cate_pid', 0)->get();
+        return view('admin.category.add', compact('cate_id_arr'));
     }
 
-    //get admin/category/{category}
-    public function show(){
-
+    //get admin/category/{category}/edit
+    public function edit($cate_id){
+        $cate_id_arr = Category::where('cate_pid', 0)->get();
+        $data = Category::find($cate_id);//find()找主鍵的值
+        return view('admin.category.add', compact('data', 'cate_id_arr'));
     }
 
     //put admin/category/{category}
-    public function update(){
-
+    public function update($cate_id){
+        $input = Input::except('_token', '_method');//除了token之外全部的值保存
+        $validator = $this->checkValidator($input);
+        if ($validator->passes()) {
+            $re = Category::where('cate_id', $cate_id)->update($input);// update 特別要注意 where判斷
+            if($re){
+                return redirect('admin/category');
+            }else{
+                return back()->with('errors','修改失敗');
+            }
+        } else{
+            return back()->withErrors($validator);//回傳錯誤訊息給上頁變數為$errors
+        }
     }
 
     //delete admin/category/{category}
@@ -75,11 +81,7 @@ class CategoryController extends CommonController
 
     }
 
-    //get admin/category/{category}/edit
-    public function edit(){
-
-    }
-
+    //ajax 文章排序
     public function changeOrder()
     {
         $input = Input::all();
@@ -98,6 +100,20 @@ class CategoryController extends CommonController
             ];
         }
         return $data;
+    }
+
+    //判斷 input 裡的 Validator::make
+    private function checkValidator($input){
+        $rules = [
+            'cate_pid' => 'required',
+            'cate_name' => 'required',
+        ];
+
+        $messages = [
+            'cate_pid.required' => '父級分類必須',
+            'cate_name.required' => '分類名稱必填',
+        ];
+        return Validator::make($input, $rules, $messages);
     }
 
 }

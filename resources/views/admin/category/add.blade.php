@@ -32,7 +32,12 @@
     </div>
 	<!--結果集標題與導航組件 結束-->
     <div class="result_wrap">
-        <form action="{{url('admin/category')}}" method="post">
+        @if(!isset($data))
+            <form action="{{url('admin/category')}}" method="post">
+        @else
+            <form action="{{url('admin/category/'.$data->cate_id)}}" method="post">
+            <input type="hidden" name="_method" value="put" />
+        @endif
             {{csrf_field()}}
             <table class="add_tab">
                 <tbody>
@@ -41,8 +46,15 @@
                         <td>
 							<select name="cate_pid">
                                 <option value="">===分類===</option>
-                                @foreach($data as $v)
-                                 <option value="{{$v->cate_id}}">{{$v->cate_name}}</option>
+                                @foreach($cate_id_arr as $v)
+                                    <?php
+                                        $selected = '';
+                                        echo $v->cate_id;
+                                        if(isset($data) && $data->cate_pid == $v->cate_id){
+                                            $selected = ' selected';
+                                        }
+                                    ?>
+                                        <option value="{{$v->cate_id}}" {{$selected}}>{{$v->cate_name}}</option>
                                 @endforeach
                             </select>
                         </td>
@@ -50,32 +62,32 @@
                     <tr>
                          <th><i class="require">*</i>分類名稱：</th>
                         <td>
-                            <input type="text" name="cate_name">
+                            <input type="text" name="cate_name" value="{{isset($data)?$data->cate_name:''}}" />
                             <span><i class="fa fa-exclamation-circle yellow"></i>分類名稱必須填寫</span>
                         </td>
                     </tr>
                     <tr>
                         <th>分類標題：</th>
                          <td>
-                            <input type="text" class="lg" name="cate_title">
+                            <input type="text" class="lg" name="cate_title" value="{{isset($data)?$data->cate_title:''}}" />
                           </td>
                     </tr>
                     <tr>
                         <th>關鍵字：</th>
                              <td>
-                                <textarea name="cate_keywords"></textarea>
+                                <textarea name="cate_keywords">{{isset($data)?$data->cate_keywords:''}}</textarea>
                             </td>
                         </tr>
                         <tr>
                             <th>描述：</th>
                             <td>
-                                <textarea name="cate_description"></textarea>
+                                <textarea name="cate_description">{{isset($data)?$data->cate_description:''}}</textarea>
                             </td>
                         </tr>
                         <tr>
                             <th><i class="require">*</i>排序：</th>
                             <td>
-                                <input type="text" class="sm" name="cate_order">
+                                <input type="text" class="sm" name="cate_order" value="{{isset($data)?$data->cate_order:''}}" />
                             </td>
                         </tr>
                         <tr>
@@ -87,6 +99,6 @@
                         </tr>
                 </tbody>
             </table>
-        </form>
+        </input>
     </div>
 @endsection

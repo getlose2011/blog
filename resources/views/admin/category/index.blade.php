@@ -70,7 +70,7 @@
                                 <a href="#">{{$v->cate_view}}</a>
                             </td>
                             <td>
-                                <a href="#">修改</a>
+                                <a href="{{url('admin/category/'.$v->cate_id)}}">修改</a>
                                 <a href="#">删除</a>
                             </td>
                         </tr>
