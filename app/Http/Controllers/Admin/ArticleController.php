@@ -13,6 +13,7 @@ class ArticleController extends CommonController
     public function index(){
        // $category_data = array();
        // return view('admin.article.index')->with('data', $categorys_data);
+        echo 1233333;
     }
 
     //get admin/article/create
