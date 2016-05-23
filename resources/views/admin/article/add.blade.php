@@ -41,34 +41,37 @@
             <table class="add_tab">
                 <tbody>
                     <tr>
-                        <th width="120"><i class="require">*</i>父級分類：</th>
+                        <th width="120">分類：</th>
                         <td>
-							<select name="cate_pid">
-                                <option value="">===分類===</option>
+							<select name="cate_id">
                                 @foreach($cate_id_arr as $v)
                                     <?php
                                         $selected = '';
-                                        echo $v->cate_id;
-                                        if(isset($data) && $data->cate_pid == $v->cate_id){
+                                        if(isset($data) && $data->cate_id == $v->cate_id){
                                             $selected = ' selected';
                                         }
                                     ?>
-                                        <option value="{{$v->cate_id}}" {{$selected}}>{{$v->cate_name}}</option>
+                                        <option value="{{$v->cate_id}}" {{$selected}}>{{$v->_cate_name}}</option>
                                 @endforeach
                             </select>
                         </td>
                     </tr>
                     <tr>
-                         <th><i class="require">*</i>分類名稱：</th>
-                        <td>
-                            <input type="text" name="cate_name" value="{{isset($data)?$data->cate_name:''}}" />
-                            <span><i class="fa fa-exclamation-circle yellow"></i>分類名稱必須填寫</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>分類標題：</th>
+                        <th>文章標題：</th>
                          <td>
                             <input type="text" class="lg" name="cate_title" value="{{isset($data)?$data->cate_title:''}}" />
+                          </td>
+                    </tr>
+                    <tr>
+                        <th>編輯：</th>
+                         <td>
+                             <input type="text" class="lg" name="" value="{{isset($data)?$data->art_editor:''}}" />
+                          </td>
+                    </tr>
+                    <tr>
+                        <th>縮略圖：</th>
+                         <td>
+                            <input type="text" class="lg" name="" value="{{isset($data)?$data->art_thumb:''}}" />
                           </td>
                     </tr>
                     <tr>
@@ -83,11 +86,21 @@
                                 <textarea name="cate_description">{{isset($data)?$data->cate_description:''}}</textarea>
                             </td>
                         </tr>
-                        <tr>
-                            <th><i class="require">*</i>排序：</th>
+                        <tr>
+                            <th>文章內容：</th>
                             <td>
-                                <input type="text" class="sm" name="cate_order" value="{{isset($data)?$data->cate_order:''}}" />
-                            </td>
+                                <style>
+                                    .edui-default{line-height: 28px;}
+                                    div.edui-combox-body,div.edui-button-body,div.edui-splitbutton-body
+                                    {overflow: hidden; height:20px;}
+                                    div.edui-box{overflow: hidden; height:22px;}
+                                </style>
+                                <script type="text/javascript" charset="utf-8" src="{{asset('resources/org/ueditor/ueditor.config.js')}}"></script>
+                                <script type="text/javascript" charset="utf-8" src="{{asset('resources/org/ueditor/ueditor.all.min.js')}}"> </script>
+                                <script type="text/javascript" charset="utf-8" src="{{asset('resources/org/ueditor/lang/zh-cn/zh.js')}}"></script>
+                                <script id="editor" name="art_content" type="text/plain" style="width:700px;height:400px;"></script>
+                                <script type="text/javascript">var ue = UE.getEditor('editor');</script>
+                            </td>
                         </tr>
                         <tr>
                             <th></th>
