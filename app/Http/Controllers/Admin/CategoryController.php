@@ -63,6 +63,9 @@ class CategoryController extends CommonController
     //put admin/category/{category}
     public function update($cate_id){
         $input = Input::except('_token', '_method');//除了token之外全部的值保存
+        if($input['cate_pid'] == $cate_id){
+            return back()->with('errors','父級分類名稱不能指到分類名稱');
+        }  
         $validator = $this->checkValidator($input);
         if ($validator->passes()) {
             $re = Category::where('cate_id', $cate_id)->update($input);// update 特別要注意 where判斷
@@ -71,14 +74,27 @@ class CategoryController extends CommonController
             }else{
                 return back()->with('errors','修改失敗');
             }
-        } else{
+        }else{
             return back()->withErrors($validator);//回傳錯誤訊息給上頁變數為$errors
         }
     }
 
     //delete admin/category/{category}
-    public function destroy(){
-
+    public function destroy($cate_id){
+        $re = Category::where('cate_id', $cate_id)->delete();
+        if($re){
+            Category::where('cate_pid', $cate_id)->update(['cate_pid'=>0]);
+            $data = [
+                'status' => 0,
+                'message' => '刪除成功',
+            ];
+        }else{
+            $data = [
+                'status' => 1,
+                'message' => '刪除失敗,請稍後再試',
+            ];
+        }
+        return $data;
     }
 
     //ajax 文章排序
@@ -90,12 +106,12 @@ class CategoryController extends CommonController
         $re = $cate->update();
         if($re){
             $data = [
-                'status' => 1,
+                'status' => 0,
                 'message' => '儲存成功',
             ];
         }else{
             $data = [
-                'status' => 0,
+                'status' => 1,
                 'message' => '儲存失敗,請稍後再試',
             ];
         }
@@ -105,12 +121,10 @@ class CategoryController extends CommonController
     //判斷 input 裡的 Validator::make
     private function checkValidator($input){
         $rules = [
-            'cate_pid' => 'required',
             'cate_name' => 'required',
         ];
 
         $messages = [
-            'cate_pid.required' => '父級分類必須',
             'cate_name.required' => '分類名稱必填',
         ];
         return Validator::make($input, $rules, $messages);
