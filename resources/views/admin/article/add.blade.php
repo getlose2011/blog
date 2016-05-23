@@ -9,7 +9,7 @@
     <!-​​-結果集標題與導航組件 開始-->
     <div class="result_wrap">
         <div class="result_title">
-            <h3>分類管理</h3>
+            <h3>文章管理</h3>
             @if(count($errors) > 0)
                 <div class="mark">
                     @if(is_object($errors))
@@ -24,8 +24,8 @@
         </div>
         <div class="result_content">
             <div class="short_wrap">
-                <a href="{{url('admin/category/create')}}"><i class="fa fa-plus"></i>新增分類</a>
-                <a href="{{url('admin/category')}}"><i class="fa fa-recycle"></i>全部分類</a>
+                <a href="{{url('admin/article/create')}}"><i class="fa fa-plus"></i>新增文章</a>
+                <a href="{{url('admin/article')}}"><i class="fa fa-recycle"></i>全部文章</a>
             </div>
         </div>
     </div>
