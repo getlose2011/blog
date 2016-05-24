@@ -13,9 +13,9 @@ class ArticleController extends CommonController
     //
     //get admin/article
     public function index(){
-       // $category_data = array();
-       // return view('admin.article.index')->with('data', $categorys_data);
-        echo 1233333;
+        //分頁 Pagination
+        $data = Article::orderBy('art_id','desc')->paginate(5);
+       return view('admin.article.index', compact('data'));
     }
 
     //get admin/article/create
