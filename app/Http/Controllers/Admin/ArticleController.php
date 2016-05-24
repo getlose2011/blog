@@ -43,6 +43,37 @@ class ArticleController extends CommonController
         }
     }
 
+    //get admin/article/{article}/edit
+    public function edit($art_id){
+        $cate_id_arr = Category::tree();
+        $data = Article::find($art_id);//find()找主鍵的值
+        return view('admin.article.add', compact('data', 'cate_id_arr'));
+    }
+
+    //put admin/article/{article}
+    public function update($art_id){
+//        $input = Input::except('_token', '_method');//除了token, method之外全部的值保存
+//        $validator = $this->checkValidator($input);
+//
+//        if ($validator->passes()) {
+//            $re = Article::where('art_id', $art_id)->update($input);// update 特別要注意 where判斷
+//            if($re){
+//                return redirect('admin/article');
+//            }else{
+//                return back()->with('errors','文章修改失敗');
+//            }
+//        }else{
+//            return back()->withErrors($validator);//回傳錯誤訊息給上頁變數為$errors
+//        }
+        $input = Input::except('_token','_method');
+        $re = Article::where('art_id',$art_id)->update($input);
+        if($re){
+            return redirect('admin/article');
+        }else{
+            return back()->with('errors','文章更新失败，请稍后重试！');
+        }
+    }
+
     //判斷 input 裡的 Validator::make
     private function checkValidator($input){
         $rules = [

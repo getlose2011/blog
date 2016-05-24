@@ -34,7 +34,7 @@
         @if(!isset($data))
             <form action="{{url('admin/article')}}" method="post">
                 @else
-                    <form action="{{url('admin/category/'.$data->cate_id)}}" method="post">
+                    <form action="{{url('admin/article/'.$data->art_id)}}" method="post">
                         <input type="hidden" name="_method" value="put" />
                         @endif
                         {{csrf_field()}}
@@ -59,7 +59,7 @@
                                 <tr>
                                     <th><i class="require">*</i>文章標題：</th>
                                     <td>
-                                        <input type="text" class="lg" name="art_title" value="{{isset($data)?$data->cate_title:''}}" />
+                                        <input type="text" class="lg" name="art_title" value="{{isset($data)?$data->art_title:''}}" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -105,19 +105,19 @@
                                 <tr>
                                     <th></th>
                                     <td>
-                                        <img src="" alt="" id="art_thumb_img" style="max-width: 350px; max-height:100px;">
+                                        <img src="/{{isset($data)?$data->art_thumb:''}}" alt="" id="art_thumb_img" style="max-width: 350px; max-height:100px;">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>關鍵字：</th>
                                     <td>
-                                        <textarea name="art_tag">{{isset($data)?$data->cate_keywords:''}}</textarea>
+                                        <textarea name="art_tag">{{isset($data)?$data->art_tag:''}}</textarea>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>描述：</th>
                                     <td>
-                                        <textarea name="art_description">{{isset($data)?$data->cate_description:''}}</textarea>
+                                        <textarea name="art_description">{{isset($data)?$data->art_description:''}}</textarea>
                                      </td>
                                 </tr>
                                 <tr>
@@ -132,7 +132,11 @@
                                         <script type="text/javascript" charset="utf-8" src="{{asset('resources/org/ueditor/ueditor.config.js')}}"></script>
                                         <script type="text/javascript" charset="utf-8" src="{{asset('resources/org/ueditor/ueditor.all.min.js')}}"> </script>
                                         <script type="text/javascript" charset="utf-8" src="{{asset('resources/org/ueditor/lang/zh-cn/zh.js')}}"></script>
-                                        <script id="editor" name="art_content" type="text/plain" style="width:700px;height:400px;"></script>
+                                        <script id="editor" name="art_content" type="text/plain" style="width:700px;height:400px;">
+                                            @if(isset($data))
+                                                {!!$data->art_content!!}
+                                            @endif
+                                        </script>
                                         <script type="text/javascript">var ue = UE.getEditor('editor');</script>
                                     </td>
                                 </tr>
