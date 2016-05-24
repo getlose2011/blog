@@ -78,7 +78,7 @@
                                         </style>
                                         <link rel="stylesheet" type="text/css" href="{{asset('resources/org/uploadify/uploadify.css')}}">
                                         <script src="{{asset('resources/org/uploadify/jquery.uploadify.min.js')}}" type="text/javascript"></script>
-                                        <input type="text" class="lg" name="" value="{{isset($data)?$data->art_thumb:''}}" />
+                                        <input type="text" class="lg" name="" id="art_thumb" value="{{isset($data)?$data->art_thumb:''}}" />
                                         <script type="text/javascript">
                                             <?php $timestamp = time();?>
                                             $(function() {
@@ -89,12 +89,24 @@
                                                         '_token'     : '{{csrf_token()}}'
                                                     },
                                                     'swf'      : '{{asset('resources/org/uploadify/uploadify.swf')}}',
-                                                    'uploader' : '{{url('admin/upload')}}'
+                                                    'uploader' : '{{url('admin/upload')}}',
+                                                    'onUploadSuccess' : function(file, data, response) {
+                                                        if(response){
+                                                            $("#art_thumb").val(data);
+                                                            $("#art_thumb_img").attr("src",'/blog/'+data);
+                                                        }
+                                                    }
                                                 });
                                             });
                                         </script>
                                         <input id="file_upload" name="file_upload" type="file" multiple="true">
                                      </td>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <td>
+                                        <img src="" alt="" id="art_thumb_img" style="max-width: 350px; max-height:100px;">
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>關鍵字：</th>
