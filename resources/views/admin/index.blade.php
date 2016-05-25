@@ -5,7 +5,7 @@
 		<div class="top_left">
 			<div class="logo">後台管理模板</div>
 			<ul>
-				<li><a href="#" class="active">首頁</a></li>
+				<li><a href="{{url('admin/info')}}" class="active">首頁</a></li>
 				<li><a href="#">管理頁</a></li>
 			</ul>
 		</div>
@@ -26,9 +26,9 @@
             	<h3><i class="fa fa-fw fa-clipboard"></i>常用操作</h3>
                 <ul class="sub_menu">
                     <li><a href="{{url('admin/category/create')}}" target="main"><i class="fa fa-fw fa-plus-square"></i>新增分類</a></li>
-                    <li><a href="{{url('admin/category')}}" target="main"><i class="fa fa-fw fa-list-ul"></i>分頁類表</a></li>
-                    <li><a href="tab.html" target="main"><i class="fa fa-fw fa-list-alt"></i>tab页</a></li>
-                    <li><a href="img.html" target="main"><i class="fa fa-fw fa-image"></i>图片列表</a></li>
+                    <li><a href="{{url('admin/category')}}" target="main"><i class="fa fa-fw fa-list-ul"></i>分類列表</a></li>
+					<li><a href="{{url('admin/article/create')}}" target="main"><i class="fa fa-fw fa-plus-square"></i>新增文章</a></li>
+					<li><a href="{{url('admin/article')}}" target="main"><i class="fa fa-fw fa-list-ul"></i>文章列表</a></li>
                 </ul>
             </li>
             <li>

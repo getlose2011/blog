@@ -74,6 +74,23 @@ class ArticleController extends CommonController
         }
     }
 
+    //delete admin/article/{article}
+    public function destroy($art_id){
+        $re = Article::where('art_id', $art_id)->delete();
+        if($re){
+            $data = [
+                'status' => 0,
+                'message' => '刪除成功',
+            ];
+        }else{
+            $data = [
+                'status' => 1,
+                'message' => '刪除失敗,請稍後再試',
+            ];
+        }
+        return $data;
+    }
+    
     //判斷 input 裡的 Validator::make
     private function checkValidator($input){
         $rules = [

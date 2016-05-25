@@ -3,7 +3,7 @@
     <!--面包屑导航 开始-->
     <div class="crumb_warp">
         <!--<i class="fa fa-bell"></i> 欢迎使用登陆网站后台，建站的首选工具。-->
-        <i class="fa fa-home"></i> <a href="#">首頁</a> &raquo; 文章管理
+        <i class="fa fa-home"></i> <a href="{{url('admin/info')}}">首頁</a> &raquo; 文章管理
     </div>
     <!--面包屑导航 结束-->
 
@@ -15,9 +15,8 @@
             <!--快捷导航 开始-->
             <div class="result_content">
                 <div class="short_wrap">
-                    <a href="#"><i class="fa fa-plus"></i>新增文章</a>
-                    <a href="#"><i class="fa fa-recycle"></i>批量删除</a>
-                    <a href="#"><i class="fa fa-refresh"></i>更新排序</a>
+                    <a href="{{url('admin/article/create')}}"><i class="fa fa-plus"></i>新增文章</a>
+                    <a href="{{url('admin/article')}}"><i class="fa fa-recycle"></i>文章列表</a>
                 </div>
             </div>
             <!--快捷导航 结束-->
@@ -45,7 +44,7 @@
                         <td>{{date('Y-m-d',$v->art_time)}}</td>
                         <td>
                             <a href="{{url('admin/article/'.$v->art_id.'/edit')}}">修改</a>
-                            <a href="javascript:;" onclick="delArt({{$v->art_id}})">删除</a>
+                            <a href="javascript:delArt({{$v->art_id}})">删除</a>
                         </td>
                     </tr>
                   @endforeach
@@ -64,4 +63,21 @@
         }
     </style>
     <!--分頁 結束-->
+    <script>
+        //删除文章
+        function delArt(art_id) {
+            layer.confirm('確定刪除嗎？', {
+                btn: ['刪除','取消']
+            }, function(){
+                $.post('{{url('admin/article')}}/'+art_id, {'_method':'DELETE', '_token':'{{csrf_token()}}', 'art_id':art_id}, function(data){
+                    if(data.status == 0){
+                        layer.alert(data.message, {icon: 6});
+                        location.href = location.href;//刷新頁面
+                    }else{
+                        layer.alert(data.message, {icon: 5});
+                    }
+                });
+            });
+        }
+    </script>
 @endsection

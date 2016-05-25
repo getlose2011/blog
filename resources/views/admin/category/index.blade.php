@@ -39,7 +39,7 @@
             <div class="result_content">
                 <div class="short_wrap">
                     <a href="{{url('admin/category/create')}}"><i class="fa fa-plus"></i>新增分類</a>
-                    <a href="{{url('admin/category')}}"><i class="fa fa-recycle"></i>全部分類</a>
+                    <a href="{{url('admin/category')}}"><i class="fa fa-recycle"></i>分類列表</a>
                 </div>
             </div>
             <!--快捷导航 结束-->
