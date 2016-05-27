@@ -26,6 +26,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware'=>'adminl
     Route::post('cate/changeorder','CategoryController@changeOrder');
     Route::resource('category', 'CategoryController');//資源控制器路由
     Route::resource('article', 'ArticleController');//資源控制器路由
+    Route::resource('links', 'LinksController');//資源控制器路由
+    Route::post('links/changeorder','LinksController@changeOrder');
 
     Route::any('upload','CommonController@upload');
 });
