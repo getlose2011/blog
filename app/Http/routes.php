@@ -28,6 +28,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware'=>'adminl
     Route::resource('article', 'ArticleController');//資源控制器路由
     Route::resource('links', 'LinksController');//資源控制器路由
     Route::post('links/changeorder','LinksController@changeOrder');
+    Route::resource('navs', 'NavsController');//資源控制器路由
+    Route::post('navs/changeorder','NavsController@changeOrder');
 
     Route::any('upload','CommonController@upload');
 });
