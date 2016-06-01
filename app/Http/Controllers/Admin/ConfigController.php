@@ -13,13 +13,45 @@ class ConfigController extends CommonController
 {
     //get admin/config
     public function index(){
-        $categorys_data = Config::orderBy('conf_order', 'asc')->get();
-        return view('admin.config.index')->with('data', $categorys_data);
+        $data = Config::orderBy('conf_order', 'asc')->get();
+
+        foreach($data as $k => $v){
+            //echo $v->field_type;
+            switch($v->field_type){
+                case 'input':
+                    $data[$k]->_html = '<input type="text" class="lg" name="conf_content[]" value="'.$v->conf_content.'">';
+                    break;
+                case 'textarea':
+                    $data[$k]->_html = '<textarea name="conf_content[]">'.$v->conf_content.'</textarea>';
+                    break;
+            }
+        }
+
+        return view('admin.conf.index', compact('data'));
     }
 
     //get admin/config/create
+    public function changecontent(){
+        $input = Input::except('_token');//除了token之外全部的值保存
+        foreach($input['conf_id'] as $k => $v){
+            Config::where('conf_id', $v)->update(['conf_content'=>$input['conf_content'][$k]]);// update 特別要注意 where判斷
+        }
+        $this->putFile();
+        return back()->with('errors','配置項更新成功');
+    }
+
+    public function putFile()
+    {
+        //echo \Illuminate\Support\Facades\Config::get('web.web_conut');
+        $config = Config::pluck('conf_content','conf_name')->all();
+        $path = base_path().'\config\web.php';
+        $str = '<?php return '.var_export($config,true).';';
+        file_put_contents($path,$str);
+    }
+    
+    //get admin/config/create
     public function create(){
-        return view('admin.conf.add');
+         return view('admin.conf.add');
     }
 
     //post admin/config
@@ -43,7 +75,7 @@ class ConfigController extends CommonController
     //get admin/config/{config}/edit
     public function edit($config_id){
         $data = Config::find($config_id);//find()找主鍵的值
-        return view('admin.config.add')->with('data', $data);
+        return view('admin.conf.add')->with('data', $data);
     }
 
     //put admin/config/{config}
@@ -53,6 +85,7 @@ class ConfigController extends CommonController
         if ($validator->passes()) {
             $re = Config::where('conf_id', $conf_id)->update($input);// update 特別要注意 where判斷
             if($re){
+                $this->putFile();
                 return redirect('admin/config');
             }else{
                 return back()->with('errors','修改失敗');
@@ -103,13 +136,13 @@ class ConfigController extends CommonController
     //判斷 input 裡的 Validator::make
     private function checkValidator($input){
         $rules = [
+            'conf_title' => 'required',
             'conf_name' => 'required',
-            'conf_url' => 'required',
         ];
 
         $messages = [
-            'conf_name.required' => '導航名稱必填',
-            'conf_url.required' => '導航連結必填',
+            'conf_title.required' => '配置項標題必須填寫',
+            'conf_name.required' => '配置項名稱必須填寫',
         ];
         return Validator::make($input, $rules, $messages);
     }

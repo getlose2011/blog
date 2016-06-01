@@ -30,7 +30,12 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware'=>'adminl
     Route::post('links/changeorder','LinksController@changeOrder');
     Route::resource('navs', 'NavsController');//資源控制器路由
     Route::post('navs/changeorder','NavsController@changeOrder');
+
+    Route::get('config/putfile', 'ConfigController@putFile');
     Route::resource('config', 'ConfigController');//資源控制器路由
+    Route::post('config/changecontent', 'ConfigController@changecontent');//列表頁送出
+    Route::post('config/changeorder', 'ConfigController@changeOrder');
+
 
 
     Route::any('upload','CommonController@upload');
