@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::any('/','Home\IndexController@index');
+Route::any('/cate','Home\IndexController@cate');
+Route::any('/art','Home\IndexController@article');
+
 Route::any('admin/login','Admin\LoginController@login');
 Route::get('admin/code','Admin\LoginController@code');
 
