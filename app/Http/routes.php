@@ -16,8 +16,8 @@ Route::get('/', function () {
 });
 
 Route::any('/','Home\IndexController@index');
-Route::any('/cate','Home\IndexController@cate');
-Route::any('/art','Home\IndexController@article');
+Route::any('/cate/{cate_id}','Home\IndexController@cate');
+Route::get('/a/{art_id}', 'Home\IndexController@article');
 
 Route::any('admin/login','Admin\LoginController@login');
 Route::get('admin/code','Admin\LoginController@code');
