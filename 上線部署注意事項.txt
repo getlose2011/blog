@@ -1,0 +1,4 @@
+1. Laravel 5.x 版本都已經包含了一份 .env 配置文件，大家可以不用自己創建這個文件了。
+   對於所有 Laravel 版本都已經設置了 Application key（也就是通過 php artisan key:generate 生成了秘鑰），
+   注意：最終上線時，請務必重新執行一次 php artisan key:generate 指令，以便重新生成秘鑰。
+2. APP_DEBUG = false;//錯誤訊息關掉
